@@ -1,0 +1,5 @@
+[**/.direnv/**]
+generated_code = true
+
+[**/flake-inputs/**]
+generated_code = true
