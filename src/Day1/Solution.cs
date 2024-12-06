@@ -51,19 +51,52 @@
 // the distances between all of the pairs you found. In the example above, this
 // is 2 + 1 + 0 + 1 + 2 + 5, a total distance of 11!
 
-
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
+using System.Text.RegularExpressions;
+using Microsoft.Win32.SafeHandles;
 
 namespace aoc_2024_dotnet.Day1;
 
 public class Solution
 {
     private string _filepath;
+
     public Solution(string filepath)
     {
         _filepath = filepath;
     }
 
-    public void Solve() {
-        throw new NotImplementedException();
+    public int Solve()
+    {
+        StreamReader reader = new StreamReader(_filepath);
+        List<int> columnA = new List<int>();
+        List<int> columnB = new List<int>();
+
+
+        // Separate the columns
+        string? line = reader.ReadLine();
+        while (!string.IsNullOrEmpty(line))
+        {
+            string[] columns = Regex
+                .Replace(line, @"\s+", " ")
+                .Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            // string[] columns = line.Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            Console.WriteLine($"{columns[0]} {columns[1]}");
+
+            // We know they're going to be numbers, this if fine.
+            columnA.Add(int.Parse(columns[0]));
+
+            columnB.Add(int.Parse(columns[1]));
+            line = reader.ReadLine();
+        }
+
+        return columnA
+            .OrderBy(x => x)
+            .ToList()
+            .Zip(columnB.OrderBy(x => x).ToList())
+            .Select(tup => Math.Abs(tup.First - tup.Second))
+            .Sum();
     }
 }
