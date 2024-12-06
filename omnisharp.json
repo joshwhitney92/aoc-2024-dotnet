@@ -1,19 +1,7 @@
 {
   "fileOptions": {
     "userExcludeSearchPatterns": [
-      "**/.direnv/**/*",
-      "**/flake-inputs/**/*"
-    ]
-  },
-  "msbuild": {
-    "excludeSearchPatterns": [
-      "**/.direnv/**/*",
-      "**/flake-inputs/**/*"
-    ]
-  },
-  "solution": {
-    "excludeSearchPatterns": [
-      "**/flake-inputs/**/*.sln"
+      "**/.direnv/**/*"
     ]
   }
 }
