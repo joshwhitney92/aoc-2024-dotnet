@@ -48,9 +48,69 @@
 // 
 // Analyze the unusual data from the engineers. How many reports are safe?
 
+using System.Runtime.CompilerServices;
+using System.Security.Principal;
+
 namespace aoc_2024_dotnet.Solutions.Day2;
 
 public class Solution
 {
+
+    string _filePath;
+
+    public Solution(string filePath)
+    {
+        _filePath = filePath;
+    }
+
+    private bool VerifyLvlDifference(int a, int b)
+    {
+        var difference = Math.Abs(a - b);
+        return (difference < 1 || difference > 3);
+    }
+
+    private bool IsIncreasing(IEnumerable<int> data)
+    {
+        for (int i = 0, j = i + 1; i < data.Count() - 2; i++)
+        {
+            if ((data.ElementAt(i) > data.ElementAt(j)) ||
+                VerifyLvlDifference(data.ElementAt(i), data.ElementAt(j)))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private bool IsDecreasing(IEnumerable<int> data)
+    {
+        for (int i = 0, j = i + 1; i < data.Count() - 2; i++)
+        {
+            if ((data.ElementAt(i) < data.ElementAt(j)) ||
+                VerifyLvlDifference(data.ElementAt(i), data.ElementAt(j)))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private bool IsSafe(IEnumerable<int> report)
+    {
+        return IsIncreasing(report) || IsDecreasing(report);
+    }
+
+    public int Solve()
+    {
+        FileData contents = Helpers.ParseFileData(_filePath);
+        int safeCount = 0;
+
+        foreach (var report in contents.Reports)
+        {
+            if (IsSafe(report)) { safeCount += 1; }
+        }
+
+        return safeCount;
+    }
 
 }
