@@ -1,5 +1,6 @@
 /.direnv
 *.swp
+*.swo
 *.*~
 project.lock.json
 .DS_Store

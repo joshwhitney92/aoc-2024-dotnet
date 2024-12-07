@@ -82,8 +82,36 @@ public class Solution
             string[] columns = Regex
                 .Replace(line, @"\s+", " ")
                 .Split(" ", StringSplitOptions.RemoveEmptyEntries);
-            // string[] columns = line.Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries);
-            Console.WriteLine($"{columns[0]} {columns[1]}");
+            columnA.Add(int.Parse(columns[0]));
+
+            columnB.Add(int.Parse(columns[1]));
+            line = reader.ReadLine();
+        }
+
+       
+        return columnA
+            .OrderBy(x => x)
+            .ToList()
+            .Zip(columnB.OrderBy(x => x).ToList())
+            .Select(tup => Math.Abs(tup.First - tup.Second))
+            .Sum();
+    }
+
+
+    public int Solve2()
+    {
+        StreamReader reader = new StreamReader(_filepath);
+        List<int> columnA = new List<int>();
+        List<int> columnB = new List<int>();
+
+
+        // Separate the columns
+        string? line = reader.ReadLine();
+        while (!string.IsNullOrEmpty(line))
+        {
+            string[] columns = Regex
+                .Replace(line, @"\s+", " ")
+                .Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
             // We know they're going to be numbers, this if fine.
             columnA.Add(int.Parse(columns[0]));
@@ -93,10 +121,7 @@ public class Solution
         }
 
         return columnA
-            .OrderBy(x => x)
-            .ToList()
-            .Zip(columnB.OrderBy(x => x).ToList())
-            .Select(tup => Math.Abs(tup.First - tup.Second))
+            .Select(x => columnB.Where(y => y == x).Count() * x)
             .Sum();
     }
 }
