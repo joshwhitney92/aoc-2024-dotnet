@@ -57,7 +57,7 @@ using System.Data;
 using System.Text.RegularExpressions;
 using Microsoft.Win32.SafeHandles;
 
-namespace aoc_2024_dotnet.Day1;
+namespace aoc_2024_dotnet.Library.Day1;
 
 public class Solution
 {
