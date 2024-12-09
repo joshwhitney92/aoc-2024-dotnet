@@ -57,11 +57,7 @@ using System.Data;
 using System.Text.RegularExpressions;
 using Microsoft.Win32.SafeHandles;
 
-<<<<<<<< HEAD:aoc-2024-dotnet.Library/Day1/Solution.cs
-namespace aoc_2024_dotnet.Library.Day1;
-========
-namespace aoc_2024_dotnet.Solutions.Day1;
->>>>>>>> bd7735c (Re-factor Solutions namespace):src/Solutions/Day1/Solution.cs
+namespace aoc_2024_dotnet.Library.Solutions.Day1;
 
 public class Solution
 {

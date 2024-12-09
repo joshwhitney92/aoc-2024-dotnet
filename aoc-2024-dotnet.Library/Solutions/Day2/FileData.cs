@@ -1,4 +1,4 @@
-namespace aoc_2024_dotnet.Solutions.Day2;
+namespace aoc_2024_dotnet.Library.Solutions.Day2;
 
 public class FileData
 {
