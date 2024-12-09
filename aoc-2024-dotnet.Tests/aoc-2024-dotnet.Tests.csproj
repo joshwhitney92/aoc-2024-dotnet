@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\aoc-2024-dotnet.csproj" />
+    <ProjectReference Include="..\aoc-2024-dotnet.Library\aoc-2024-dotnet.Library.csproj" />
   </ItemGroup>
 
 </Project>
