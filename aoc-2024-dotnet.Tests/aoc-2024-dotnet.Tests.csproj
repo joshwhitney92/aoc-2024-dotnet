@@ -17,4 +17,8 @@
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\aoc-2024-dotnet.csproj" />
+  </ItemGroup>
+
 </Project>
