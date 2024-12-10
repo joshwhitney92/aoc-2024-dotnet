@@ -108,7 +108,6 @@ public class Solution
     public int Solve()
     {
         FileData contents = Helpers.ParseFileData(_filePath);
-        Helpers.PrintFileData(contents);
         int safeCount = 0;
 
         foreach (var report in contents.Reports)
@@ -116,7 +115,6 @@ public class Solution
             if (IsSafe(report))
             {
                 safeCount += 1;
-                Console.WriteLine($"[ {report.ToString()} ]");
             }
         }
 

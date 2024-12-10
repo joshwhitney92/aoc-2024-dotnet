@@ -30,7 +30,23 @@ public sealed class Solution2Tests
         var sut = new Solution();
         
         // Act
-        var result = sut.IsDecreasing(list);
+        var result = sut.IsSafe(list);
+
+        // Assert
+        Assert.IsFalse(result);
+    }
+
+
+
+    [TestMethod]
+    public void Solution_Sequence_Out_of_Order_Fails()
+    {
+        // Arrange
+        var list = new List<int> {1, 3, 2, 4, 5};
+        var sut = new Solution();
+        
+        // Act
+        var result = sut.IsSafe(list);
 
         // Assert
         Assert.IsFalse(result);
@@ -66,6 +82,39 @@ public sealed class Solution2Tests
         // Assert
         Assert.IsTrue(result);
     }
+
+
+
+    [TestMethod]
+    public void Solution_IsSafe_Works()
+    {
+        // Arrange
+        var list = new List<int> {1, 3, 6, 7, 9 };
+        var sut = new Solution();
+        
+        // Act
+        var result = sut.IsSafe(list);
+
+        // Assert
+        Assert.IsTrue(result);
+    }
+
+
+    [TestMethod]
+    public void Solution_IsSafe_Fails_For_Unsafe_Report()
+    {
+        // Arrange
+        var list = new List<int> {1, 2, 7, 8, 9};
+        var sut = new Solution();
+        
+        // Act
+        var result = sut.IsSafe(list);
+
+        // Assert
+        Assert.IsFalse(result);
+    }
+
+
 
 
     [TestMethod]
