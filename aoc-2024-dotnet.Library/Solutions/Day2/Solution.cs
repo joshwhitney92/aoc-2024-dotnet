@@ -56,25 +56,22 @@ namespace aoc_2024_dotnet.Library.Solutions.Day2;
 public class Solution
 {
 
-    string _filePath;
-
-    public Solution(string filePath)
+    public Solution()
     {
-        _filePath = filePath;
     }
 
-    private bool VerifyLvlDifference(int a, int b)
+    public bool IsWithinBounds(int a, int b)
     {
         var difference = Math.Abs(a - b);
-        return (difference < 1 || difference > 3);
+        return difference >= 1 && difference <= 3;
     }
 
-    private bool IsIncreasing(IEnumerable<int> data)
+    public bool IsIncreasing(IEnumerable<int> data)
     {
-        for (int i = 0, j = i + 1; i < data.Count() - 2; i++)
+        for (int i = 0, j = i + 1; i < data.Count() - 1; i++, j++)
         {
             if ((data.ElementAt(i) > data.ElementAt(j)) ||
-                VerifyLvlDifference(data.ElementAt(i), data.ElementAt(j)))
+                !IsWithinBounds(data.ElementAt(i), data.ElementAt(j)))
             {
                 return false;
             }
@@ -82,12 +79,12 @@ public class Solution
         return true;
     }
 
-    private bool IsDecreasing(IEnumerable<int> data)
+    public bool IsDecreasing(IEnumerable<int> data)
     {
-        for (int i = 0, j = i + 1; i < data.Count() - 2; i++)
+        for (int i = 0, j = i + 1; i < data.Count() - 1; i++, j++)
         {
             if ((data.ElementAt(i) < data.ElementAt(j)) ||
-                VerifyLvlDifference(data.ElementAt(i), data.ElementAt(j)))
+                !IsWithinBounds(data.ElementAt(i), data.ElementAt(j)))
             {
                 return false;
             }
@@ -95,21 +92,106 @@ public class Solution
         return true;
     }
 
-    private bool IsSafe(IEnumerable<int> report)
+    public bool IsSafe(IEnumerable<int> report)
     {
         return IsIncreasing(report) || IsDecreasing(report);
     }
 
-    public int Solve()
+    // O(n)
+    // This is the better solution. Only need to iterate once.
+    public bool IsSafeAlt(IEnumerable<int> report)
     {
-        FileData contents = Helpers.ParseFileData(_filePath);
+        int? direction = null;
+        for (int i = 1; i < report.Count(); i++)
+        {
+
+            var diff = report.ElementAt(i) - report.ElementAt(i - 1);
+
+            // Differences must be between [1, 3]
+            if (diff < -3 || diff > 3 || diff == 0)
+            {
+                return false;
+            }
+
+            // Check the direction
+            var currentDirection = diff > 0 ? 1 : -1;
+            if (direction == null)
+            {
+                direction = currentDirection;
+            }
+            else if (currentDirection != direction)
+            {
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+
+
+    // Computes whether a `report` can be made safe by removing a level.
+    public bool IsSafeWithDampener(IEnumerable<int> report)
+    {
+        for(int i = 0; i < report.Count(); i ++) {
+            // Check if array can be safe by removing `i`.
+            var modified = report.Where((item, index) => index != i );
+            if(IsSafe(modified)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    public int SolveWithDampener(FileData contents)
+    {
+        List<IEnumerable<int>> unsafeReports = new List<IEnumerable<int>>();
         int safeCount = 0;
 
         foreach (var report in contents.Reports)
         {
-            if (IsSafe(report)) { safeCount += 1; }
+            if (IsSafeWithDampener(report) || IsSafeWithDampener(report))
+            {
+                safeCount += 1;
+            }
+            // FOR DEBUGGING ONLY!
+            else
+            {
+                unsafeReports.Add(report);
+            }
         }
 
+        Helpers.OutputUnsafeRecordsToFile("output_dampened.txt", unsafeReports);
+
+        // ANSWER: 
+        return safeCount;
+    }
+
+
+    public int Solve(FileData contents)
+    {
+        List<IEnumerable<int>> unsafeReports = new List<IEnumerable<int>>();
+        int safeCount = 0;
+
+        foreach (var report in contents.Reports)
+        {
+            // if (IsSafe(report))
+            if (IsSafeAlt(report))
+            {
+                safeCount += 1;
+            }
+            // FOR DEBUGGING ONLY!
+            else
+            {
+                unsafeReports.Add(report);
+            }
+        }
+
+        Helpers.OutputUnsafeRecordsToFile("output.txt", unsafeReports);
+
+        // ANSWER: 479
         return safeCount;
     }
 
