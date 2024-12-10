@@ -31,9 +31,8 @@ public static class Helpers
         return _sb.ToString();
     }
 
-    public static void OutputUnsafeRecordsToFile(ICollection<IEnumerable<int>> unsafeRecords)
+    public static void OutputUnsafeRecordsToFile(string outputFileName, ICollection<IEnumerable<int>> unsafeRecords)
     {
-        string outputFileName = "output.txt";
         StreamWriter writer = new StreamWriter(outputFileName);
         foreach (var record in unsafeRecords)
         {

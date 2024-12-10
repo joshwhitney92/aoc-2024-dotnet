@@ -10,9 +10,9 @@ public sealed class Solution2Tests
     public void Solution_Is_Decreasing_Works()
     {
         // Arrange
-        var list = new List<int> {7, 6, 4, 2, 1 };
+        var list = new List<int> { 7, 6, 4, 2, 1 };
         var sut = new Solution();
-        
+
         // Act
         var result = sut.IsDecreasing(list);
 
@@ -26,9 +26,9 @@ public sealed class Solution2Tests
     public void Solution_HasDuplicates_Fails()
     {
         // Arrange
-        var list = new List<int> {7, 6, 6, 2, 1 };
+        var list = new List<int> { 7, 6, 6, 2, 1 };
         var sut = new Solution();
-        
+
         // Act
         var result = sut.IsSafe(list);
 
@@ -42,9 +42,9 @@ public sealed class Solution2Tests
     public void Solution_Sequence_Out_of_Order_Fails()
     {
         // Arrange
-        var list = new List<int> {1, 3, 2, 4, 5};
+        var list = new List<int> { 1, 3, 2, 4, 5 };
         var sut = new Solution();
-        
+
         // Act
         var result = sut.IsSafe(list);
 
@@ -58,9 +58,9 @@ public sealed class Solution2Tests
     public void Solution_Has_Difference_Out_Of_Range_Fails()
     {
         // Arrange
-        var list = new List<int> {7, 6, 6, 99, 1 };
+        var list = new List<int> { 7, 6, 6, 99, 1 };
         var sut = new Solution();
-        
+
         // Act
         var result = sut.IsSafe(list);
 
@@ -73,9 +73,9 @@ public sealed class Solution2Tests
     public void Solution_Is_Increasing_Works()
     {
         // Arrange
-        var list = new List<int> {1, 3, 6, 7, 9 };
+        var list = new List<int> { 1, 3, 6, 7, 9 };
         var sut = new Solution();
-        
+
         // Act
         var result = sut.IsIncreasing(list);
 
@@ -89,9 +89,9 @@ public sealed class Solution2Tests
     public void Solution_IsSafe_Works()
     {
         // Arrange
-        var list = new List<int> {1, 3, 6, 7, 9 };
+        var list = new List<int> { 1, 3, 6, 7, 9 };
         var sut = new Solution();
-        
+
         // Act
         var result = sut.IsSafe(list);
 
@@ -105,9 +105,9 @@ public sealed class Solution2Tests
     public void Solution_IsSafeAlt_Works()
     {
         // Arrange
-        var list = new List<int> {1, 3, 6, 7, 9 };
+        var list = new List<int> { 1, 3, 6, 7, 9 };
         var sut = new Solution();
-        
+
         // Act
         var result = sut.IsSafeAlt(list);
 
@@ -120,19 +120,47 @@ public sealed class Solution2Tests
     {
         // Arrange
         // var list = new List<int> {1, 2, 7, 8, 9};
-        
+
 
         // This should return false 
-        var list = new List<int> {4, 6, 8, 10, 11, 14, 19};
- 
+        var list = new List<int> { 4, 6, 8, 10, 11, 14, 19 };
+
         var sut = new Solution();
-        
+
         // Act
         var result = sut.IsSafe(list);
 
         // Assert
         Assert.IsFalse(result);
     }
+
+
+    [TestMethod]
+    public void Solution_IsSafeWithDampener_Works()
+    {
+        // Arrange
+        // var list = new List<int> {1, 2, 7, 8, 9};
+
+
+        // This should return true. Can remove level 3 to make it safe.
+        // var list = new List<int> {1, 3, 2, 4, 5};
+        // var list = new List<int> { 3, 5, 6, 8, 13, 18 };
+        var list = new List<int> { 37, 35, 36, 37, 34 };
+
+
+
+
+
+        var sut = new Solution();
+
+        // Act
+        var result = sut.IsSafeWithDampener(list);
+
+        // Assert
+        Assert.IsFalse(result);
+    }
+
+
 
 
 
@@ -142,7 +170,7 @@ public sealed class Solution2Tests
     {
         // Arrange
         var sut = new Solution();
-        
+
         // Act
         var result = sut.IsWithinBounds(1, 2);
 

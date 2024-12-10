@@ -13,7 +13,9 @@ class Program
         // Console.WriteLine($"Solution 2 Total is : {s.Solve2()}");
 
         // Day 2 solutions.
-        Solution s = new Solution("./Assets/day_2.txt");
-        Console.WriteLine($"Solution 1 Total is : {s.Solve()} safe reports.");
+        Solution s = new Solution();
+        FileData contents = Helpers.ParseFileData("./Assets/day_2.txt");
+        Console.WriteLine($"Solution 1 Total is : {s.Solve(contents)} safe reports.");
+        Console.WriteLine($"Solution with Dampener is: {s.SolveWithDampener(contents)} safe reports.");
     }
 }

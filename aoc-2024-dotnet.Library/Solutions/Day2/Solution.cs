@@ -56,16 +56,8 @@ namespace aoc_2024_dotnet.Library.Solutions.Day2;
 public class Solution
 {
 
-    string _filePath;
-
-    public Solution(string filePath)
-    {
-        _filePath = filePath;
-    }
-
     public Solution()
     {
-        _filePath = "./default/file/path";
     }
 
     public bool IsWithinBounds(int a, int b)
@@ -137,9 +129,49 @@ public class Solution
         return true;
     }
 
-    public int Solve()
+
+    // Computes whether a `report` can be made safe by removing a level.
+    public bool IsSafeWithDampener(IEnumerable<int> report)
     {
-        FileData contents = Helpers.ParseFileData(_filePath);
+        for(int i = 0; i < report.Count(); i ++) {
+            // Check if array can be safe by removing `i`.
+            var modified = report.Where((item, index) => index != i );
+            if(IsSafe(modified)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    public int SolveWithDampener(FileData contents)
+    {
+        List<IEnumerable<int>> unsafeReports = new List<IEnumerable<int>>();
+        int safeCount = 0;
+
+        foreach (var report in contents.Reports)
+        {
+            if (IsSafeWithDampener(report) || IsSafeWithDampener(report))
+            {
+                safeCount += 1;
+            }
+            // FOR DEBUGGING ONLY!
+            else
+            {
+                unsafeReports.Add(report);
+            }
+        }
+
+        Helpers.OutputUnsafeRecordsToFile("output_dampened.txt", unsafeReports);
+
+        // ANSWER: 
+        return safeCount;
+    }
+
+
+    public int Solve(FileData contents)
+    {
         List<IEnumerable<int>> unsafeReports = new List<IEnumerable<int>>();
         int safeCount = 0;
 
@@ -157,7 +189,7 @@ public class Solution
             }
         }
 
-        Helpers.OutputUnsafeRecordsToFile(unsafeReports);
+        Helpers.OutputUnsafeRecordsToFile("output.txt", unsafeReports);
 
         // ANSWER: 479
         return safeCount;
