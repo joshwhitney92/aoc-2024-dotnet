@@ -108,6 +108,7 @@ public class Solution
     public int Solve()
     {
         FileData contents = Helpers.ParseFileData(_filePath);
+        List<IEnumerable<int>> unsafeReports = new List<IEnumerable<int>>();
         int safeCount = 0;
 
         foreach (var report in contents.Reports)
@@ -116,7 +117,13 @@ public class Solution
             {
                 safeCount += 1;
             }
+            // FOR DEBUGGING ONLY!
+            else {
+                unsafeReports.Add(report);
+            }
         }
+
+        Helpers.OutputUnsafeRecordsToFile(unsafeReports);
 
         return safeCount;
     }
