@@ -65,7 +65,7 @@ public class Solution
 
     public Solution()
     {
-       _filePath = "./default/file/path";
+        _filePath = "./default/file/path";
     }
 
     public bool IsWithinBounds(int a, int b)
@@ -76,7 +76,7 @@ public class Solution
 
     public bool IsIncreasing(IEnumerable<int> data)
     {
-        for (int i = 0, j = i + 1; i < data.Count() - 2; i++, j++)
+        for (int i = 0, j = i + 1; i < data.Count() - 1; i++, j++)
         {
             if ((data.ElementAt(i) > data.ElementAt(j)) ||
                 !IsWithinBounds(data.ElementAt(i), data.ElementAt(j)))
@@ -89,7 +89,7 @@ public class Solution
 
     public bool IsDecreasing(IEnumerable<int> data)
     {
-        for (int i = 0, j = i + 1; i < data.Count() - 2; i++, j++)
+        for (int i = 0, j = i + 1; i < data.Count() - 1; i++, j++)
         {
             if ((data.ElementAt(i) < data.ElementAt(j)) ||
                 !IsWithinBounds(data.ElementAt(i), data.ElementAt(j)))
@@ -105,6 +105,38 @@ public class Solution
         return IsIncreasing(report) || IsDecreasing(report);
     }
 
+    // O(n)
+    // This is the better solution. Only need to iterate once.
+    public bool IsSafeAlt(IEnumerable<int> report)
+    {
+        int? direction = null;
+        for (int i = 1; i < report.Count(); i++)
+        {
+
+            var diff = report.ElementAt(i) - report.ElementAt(i - 1);
+
+            // Differences must be between [1, 3]
+            if (diff < -3 || diff > 3 || diff == 0)
+            {
+                return false;
+            }
+
+            // Check the direction
+            var currentDirection = diff > 0 ? 1 : -1;
+            if (direction == null)
+            {
+                direction = currentDirection;
+            }
+            else if (currentDirection != direction)
+            {
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+
     public int Solve()
     {
         FileData contents = Helpers.ParseFileData(_filePath);
@@ -113,18 +145,21 @@ public class Solution
 
         foreach (var report in contents.Reports)
         {
-            if (IsSafe(report))
+            // if (IsSafe(report))
+            if (IsSafeAlt(report))
             {
                 safeCount += 1;
             }
             // FOR DEBUGGING ONLY!
-            else {
+            else
+            {
                 unsafeReports.Add(report);
             }
         }
 
         Helpers.OutputUnsafeRecordsToFile(unsafeReports);
 
+        // ANSWER: 479
         return safeCount;
     }
 
