@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using System.Runtime.CompilerServices;
 
 namespace aoc_2024_dotnet.Library.Solutions.Day2;

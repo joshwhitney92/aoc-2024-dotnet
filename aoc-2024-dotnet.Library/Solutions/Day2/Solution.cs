@@ -63,18 +63,23 @@ public class Solution
         _filePath = filePath;
     }
 
-    private bool VerifyLvlDifference(int a, int b)
+    public Solution()
+    {
+       _filePath = "./default/file/path";
+    }
+
+    public bool IsWithinBounds(int a, int b)
     {
         var difference = Math.Abs(a - b);
-        return (difference < 1 || difference > 3);
+        return difference >= 1 && difference <= 3;
     }
 
-    private bool IsIncreasing(IEnumerable<int> data)
+    public bool IsIncreasing(IEnumerable<int> data)
     {
-        for (int i = 0, j = i + 1; i < data.Count() - 2; i++)
+        for (int i = 0, j = i + 1; i < data.Count() - 2; i++, j++)
         {
             if ((data.ElementAt(i) > data.ElementAt(j)) ||
-                VerifyLvlDifference(data.ElementAt(i), data.ElementAt(j)))
+                !IsWithinBounds(data.ElementAt(i), data.ElementAt(j)))
             {
                 return false;
             }
@@ -82,12 +87,12 @@ public class Solution
         return true;
     }
 
-    private bool IsDecreasing(IEnumerable<int> data)
+    public bool IsDecreasing(IEnumerable<int> data)
     {
-        for (int i = 0, j = i + 1; i < data.Count() - 2; i++)
+        for (int i = 0, j = i + 1; i < data.Count() - 2; i++, j++)
         {
             if ((data.ElementAt(i) < data.ElementAt(j)) ||
-                VerifyLvlDifference(data.ElementAt(i), data.ElementAt(j)))
+                !IsWithinBounds(data.ElementAt(i), data.ElementAt(j)))
             {
                 return false;
             }
@@ -95,7 +100,7 @@ public class Solution
         return true;
     }
 
-    private bool IsSafe(IEnumerable<int> report)
+    public bool IsSafe(IEnumerable<int> report)
     {
         return IsIncreasing(report) || IsDecreasing(report);
     }
@@ -103,11 +108,16 @@ public class Solution
     public int Solve()
     {
         FileData contents = Helpers.ParseFileData(_filePath);
+        Helpers.PrintFileData(contents);
         int safeCount = 0;
 
         foreach (var report in contents.Reports)
         {
-            if (IsSafe(report)) { safeCount += 1; }
+            if (IsSafe(report))
+            {
+                safeCount += 1;
+                Console.WriteLine($"[ {report.ToString()} ]");
+            }
         }
 
         return safeCount;
