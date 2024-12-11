@@ -75,6 +75,7 @@ public class Solution
 {
 
 
+    // Answer: 102467299
     public long Solve2(IEnumerable<string> lines)
     {
         long result = 0;
