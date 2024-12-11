@@ -34,9 +34,68 @@
 
 
 
+using System.Linq.Expressions;
+using System.Text.RegularExpressions;
+
 namespace aoc_2024_dotnet.Library.Solutions.Day3;
 
 
-public class Solution {
+public class Solution
+{
+
+
+    public long Solve2(string filepath)
+    {
+        StreamReader reader = new StreamReader(filepath);
+        long result = 0;
+
+        string? line = reader.ReadLine();
+        // string pattern = @"mul\(\b\d{1,3}\b,\b\d{1,3}\b\)";
+        string pattern = @"(do[n\'t]*\(\))[^do]*";
+        int? firstMatchIndex = null;
+        while (!string.IsNullOrEmpty(line))
+        {
+            foreach (Match match in Regex.Matches(line, pattern, RegexOptions.None))
+            {
+                if (firstMatchIndex == null) { firstMatchIndex = match.Index; }
+
+                var groups = match.Groups;
+                if(string.Equals(groups[1].Value, @"do()", StringComparison.InvariantCultureIgnoreCase)) {
+
+                }
+                var product = Int32.Parse(groups[1].Value) * Int32.Parse(groups[2].Value);
+                result += product;
+                // Console.WriteLine($"found {match.Value}, {groups[1]} * {groups[2]} = {product}");
+            }
+
+            line = reader.ReadLine();
+        }
+        return result;
+    }
+
+
+    public long Solve(string filepath)
+    {
+        StreamReader reader = new StreamReader(filepath);
+        long result = 0;
+
+        string? line = reader.ReadLine();
+        // string pattern = @"mul\(\b\d{1,3}\b,\b\d{1,3}\b\)";
+        string pattern = @"mul\(\b(\d{1,3})\b,\b(\d{1,3})\b\)";
+        while (!string.IsNullOrEmpty(line))
+        {
+
+            foreach (Match match in Regex.Matches(line, pattern, RegexOptions.None))
+            {
+                var groups = match.Groups;
+                var product = Int32.Parse(groups[1].Value) * Int32.Parse(groups[2].Value);
+                result += product;
+                // Console.WriteLine($"found {match.Value}, {groups[1]} * {groups[2]} = {product}");
+            }
+
+            line = reader.ReadLine();
+        }
+        return result;
+    }
 
 }
