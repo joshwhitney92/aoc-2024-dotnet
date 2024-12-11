@@ -22,8 +22,9 @@ class Program
 
         // Day 3 Solutions
         Solution s = new Solution();
-        var total = s.Solve("./Assets/day_3.txt");
-        var total2 = s.Solve2("./Assets/day_3.txt");
+        var lines = Helper.ReadToList("./Assets/day_3.txt");
+        var total = s.Solve(lines);
+        var total2 = s.Solve2(lines);
         Console.WriteLine($"Solution 1 total is: {total}");
         Console.WriteLine($"Solution 2 total is: {total2}");
     }

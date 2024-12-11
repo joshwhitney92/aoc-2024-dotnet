@@ -44,15 +44,14 @@ public class Solution
 {
 
 
-    public long Solve2(string filepath)
+    public long Solve2(IEnumerable<string> lines)
     {
-        StreamReader reader = new StreamReader(filepath);
         long result = 0;
 
-        string? line = reader.ReadLine();
+        // string? line = reader.ReadLine();
         string pattern = @"(do[n\'t]*\(\))[^do]*";
         int? firstMatchIndex = null;
-        while (!string.IsNullOrEmpty(line))
+        foreach(string line in lines)
         {
             foreach (Match match in Regex.Matches(line, pattern, RegexOptions.None))
             {
@@ -68,8 +67,6 @@ public class Solution
             // Add in the prefix
             var prefix = line.Substring(0, firstMatchIndex.GetValueOrDefault());
             result += MultiplyAndSumGroups(prefix);
-
-            line = reader.ReadLine();
         }
         return result;
     }
@@ -90,17 +87,15 @@ public class Solution
 
 
     // Answer: 178538786
-    public long Solve(string filepath)
+    public long Solve(IEnumerable<string> lines)
     {
-        StreamReader reader = new StreamReader(filepath);
         long result = 0;
 
-        string? line = reader.ReadLine();
+        // string? line = reader.ReadLine();
         // string pattern = @"mul\(\b\d{1,3}\b,\b\d{1,3}\b\)";
-        while (!string.IsNullOrEmpty(line))
+        foreach(string line in lines)
         {
             result += MultiplyAndSumGroups(line);
-            line = reader.ReadLine();
         }
         return result;
     }
