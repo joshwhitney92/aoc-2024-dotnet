@@ -23,7 +23,7 @@ class Program
         // Day 3 Solutions
         Solution s = new Solution();
         var lines = Helper.ReadToList("./Assets/day_3.txt");
-        var total = s.Solve(lines);
+        var total = s.Solve2(lines, useDelimiter: false);
         var total2 = s.Solve2(lines);
         Console.WriteLine($"Solution 1 total is: {total}");
         Console.WriteLine($"Solution 2 total is: {total2}");

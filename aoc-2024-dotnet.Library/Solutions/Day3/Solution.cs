@@ -76,7 +76,7 @@ public class Solution
 
 
     // Answer: 102467299
-    public long Solve2(IEnumerable<string> lines)
+    public long Solve2(IEnumerable<string> lines, bool useDelimiter = true)
     {
         long result = 0;
         bool isEnabled = true;
@@ -92,10 +92,16 @@ public class Solution
                 switch (groups["ctrl"].Value)
                 {
                     case "do()":
-                        isEnabled = true;
+                        if (useDelimiter)
+                        {
+                            isEnabled = true;
+                        }
                         break;
                     case "don't()":
-                        isEnabled = false;
+                        if (useDelimiter)
+                        {
+                            isEnabled = false;
+                        }
                         break;
                     default:
                         if (isEnabled)
