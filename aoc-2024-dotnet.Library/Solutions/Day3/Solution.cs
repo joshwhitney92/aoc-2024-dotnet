@@ -50,7 +50,6 @@ public class Solution
         long result = 0;
 
         string? line = reader.ReadLine();
-        // string pattern = @"mul\(\b\d{1,3}\b,\b\d{1,3}\b\)";
         string pattern = @"(do[n\'t]*\(\))[^do]*";
         int? firstMatchIndex = null;
         while (!string.IsNullOrEmpty(line))
@@ -60,20 +59,37 @@ public class Solution
                 if (firstMatchIndex == null) { firstMatchIndex = match.Index; }
 
                 var groups = match.Groups;
-                if(string.Equals(groups[1].Value, @"do()", StringComparison.InvariantCultureIgnoreCase)) {
-
+                if (string.Equals(groups[1].Value, @"do()", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    result += MultiplyAndSumGroups(match.Value);
                 }
-                var product = Int32.Parse(groups[1].Value) * Int32.Parse(groups[2].Value);
-                result += product;
-                // Console.WriteLine($"found {match.Value}, {groups[1]} * {groups[2]} = {product}");
             }
+
+            // Add in the prefix
+            var prefix = line.Substring(0, firstMatchIndex.GetValueOrDefault());
+            result += MultiplyAndSumGroups(prefix);
 
             line = reader.ReadLine();
         }
         return result;
     }
 
+    public int MultiplyAndSumGroups(string line)
+    {
+        int sum = 0;
+        string pattern = @"mul\(\b(\d{1,3})\b,\b(\d{1,3})\b\)";
+        foreach (Match match in Regex.Matches(line, pattern, RegexOptions.None))
+        {
+            var groups = match.Groups;
+            var product = Int32.Parse(groups[1].Value) * Int32.Parse(groups[2].Value);
+            sum += product; 
+        }
 
+        return sum;
+    }
+
+
+    // Answer: 178538786
     public long Solve(string filepath)
     {
         StreamReader reader = new StreamReader(filepath);
@@ -81,18 +97,9 @@ public class Solution
 
         string? line = reader.ReadLine();
         // string pattern = @"mul\(\b\d{1,3}\b,\b\d{1,3}\b\)";
-        string pattern = @"mul\(\b(\d{1,3})\b,\b(\d{1,3})\b\)";
         while (!string.IsNullOrEmpty(line))
         {
-
-            foreach (Match match in Regex.Matches(line, pattern, RegexOptions.None))
-            {
-                var groups = match.Groups;
-                var product = Int32.Parse(groups[1].Value) * Int32.Parse(groups[2].Value);
-                result += product;
-                // Console.WriteLine($"found {match.Value}, {groups[1]} * {groups[2]} = {product}");
-            }
-
+            result += MultiplyAndSumGroups(line);
             line = reader.ReadLine();
         }
         return result;
