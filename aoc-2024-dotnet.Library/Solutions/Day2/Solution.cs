@@ -48,9 +48,6 @@
 // 
 // Analyze the unusual data from the engineers. How many reports are safe?
 
-using System.Runtime.CompilerServices;
-using System.Security.Principal;
-
 namespace aoc_2024_dotnet.Library.Solutions.Day2;
 
 public class Solution
