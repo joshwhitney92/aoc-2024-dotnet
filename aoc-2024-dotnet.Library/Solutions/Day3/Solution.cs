@@ -30,6 +30,37 @@
 // 
 // Scan the corrupted memory for uncorrupted mul instructions. What do you get
 // if you add up all of the results of the multiplications?
+// 
+// --- Part Two ---
+// 
+// As you scan through the corrupted memory, you notice that some of the
+// conditional statements are also still intact. If you handle some of the
+// uncorrupted conditional statements in the program, you might be able to get
+// an even more accurate result.
+// 
+// There are two new instructions you'll need to handle:
+// 
+//     The do() instruction enables future mul instructions.
+//     The don't() instruction disables future mul instructions.
+// 
+// Only the most recent do() or don't() instruction applies. At the beginning of
+// the program, mul instructions are enabled.
+// 
+// For example:
+// 
+// xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))
+// 
+// This corrupted memory is similar to the example from before, but this time
+// the mul(5,5) and mul(11,8) instructions are disabled because there is a
+// don't() instruction before them. The other mul instructions function
+// normally, including the one at the end that gets re-enabled by a do()
+// instruction.
+// 
+// This time, the sum of the results is 48 (2*4 + 8*5).
+// 
+// Handle the new instructions; what do you get if you add up all of the results
+// of just the enabled multiplications?
+
 
 
 
@@ -47,26 +78,38 @@ public class Solution
     public long Solve2(IEnumerable<string> lines)
     {
         long result = 0;
+        bool isEnabled = true;
+        // ICollection<string> disabled = new List<string>();
+        // ICollection<string> enabled = new List<string>();
 
-        // string? line = reader.ReadLine();
-        string pattern = @"(do[n\'t]*\(\))[^do]*";
-        int? firstMatchIndex = null;
-        foreach(string line in lines)
+        string pattern = @"mul\(\b(?<num1>\d{1,3})\b,\b(?<num2>\d{1,3})\b\)|(?<ctrl>do[n\'t]*\(\))";
+        foreach (string line in lines)
         {
             foreach (Match match in Regex.Matches(line, pattern, RegexOptions.None))
             {
-                if (firstMatchIndex == null) { firstMatchIndex = match.Index; }
-
                 var groups = match.Groups;
-                if (string.Equals(groups[1].Value, @"do()", StringComparison.InvariantCultureIgnoreCase))
+                switch (groups["ctrl"].Value)
                 {
-                    result += MultiplyAndSumGroups(match.Value);
+                    case "do()":
+                        isEnabled = true;
+                        break;
+                    case "don't()":
+                        isEnabled = false;
+                        break;
+                    default:
+                        if (isEnabled)
+                        {
+                            if (Int32.TryParse(groups["num1"].Value, out int num1) &&
+                            Int32.TryParse(groups["num2"].Value, out int num2))
+                            {
+                                var product = num1 * num2;
+                                result += product;
+                            }
+                        }
+                        break;
+
                 }
             }
-
-            // Add in the prefix
-            var prefix = line.Substring(0, firstMatchIndex.GetValueOrDefault());
-            result += MultiplyAndSumGroups(prefix);
         }
         return result;
     }
@@ -79,7 +122,7 @@ public class Solution
         {
             var groups = match.Groups;
             var product = Int32.Parse(groups[1].Value) * Int32.Parse(groups[2].Value);
-            sum += product; 
+            sum += product;
         }
 
         return sum;
@@ -93,7 +136,7 @@ public class Solution
 
         // string? line = reader.ReadLine();
         // string pattern = @"mul\(\b\d{1,3}\b,\b\d{1,3}\b\)";
-        foreach(string line in lines)
+        foreach (string line in lines)
         {
             result += MultiplyAndSumGroups(line);
         }
